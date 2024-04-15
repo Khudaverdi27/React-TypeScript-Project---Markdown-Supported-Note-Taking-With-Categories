@@ -4,6 +4,7 @@ import NewNote from "./components/NewNote";
 import useLocaleStorage from "./hooks/useLocaleStorage";
 import { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
+import NoteList from "./components/NoteList";
 
 export type RawNote = {
   id: string;
@@ -46,11 +47,27 @@ function App() {
       ];
     });
   };
+
+  const addTag = (tag: Tag) => {
+    setTags((prev) => [...prev, tag]);
+  };
   return (
     <Container>
       <Routes>
-        <Route path="/" element={<h1>home</h1>} />
-        <Route path="/new" element={<NewNote onSubmit={onCreateNoteData} />} />
+        <Route
+          path="/"
+          element={<NoteList notes={notesWithTags} availableTags={tags} />}
+        />
+        <Route
+          path="/new"
+          element={
+            <NewNote
+              onSubmit={onCreateNoteData}
+              onAddTag={addTag}
+              availableTags={tags}
+            />
+          }
+        />
         <Route path="/:id">
           <Route index element={<h1>show</h1>} />
           <Route path="/:id/edit" element={<h1>edit</h1>} />
