@@ -70,6 +70,10 @@ function App() {
       });
     });
   };
+
+  const handleDelete = (id: string) => {
+    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+  };
   return (
     <Container>
       <Routes>
@@ -88,7 +92,7 @@ function App() {
           }
         />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
-          <Route index element={<Note />} />
+          <Route index element={<Note handleDelete={handleDelete} />} />
           <Route
             path="/:id/edit"
             element={
